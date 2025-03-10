@@ -76,6 +76,12 @@ To get plugin up and running, follow these steps:
     <td>Defines the color palette available in the color picker's predefined section. Each color should be a valid CSS color value (hex, RGB, etc.). If you pass values with label, it will automatically switch to list view instead.</td>
   </tr>
   <tr>
+    <td><code>colorPicker</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>By setting this to <code>false</code>, you can hide the color picker, limiting users to selecting only from the predefined colors.</td></td>
+  </tr>
+  <tr>
     <td><code>listView</code></td>
     <td><code>boolean</code></td>
     <td><code>undefined</code></td>

@@ -22,6 +22,7 @@ export const TextColorPicker = ({
   onChange,
   colors = [],
   hideAttribution = false,
+  colorPicker = true,
   listView,
 }: {
   color: string;
@@ -44,7 +45,53 @@ export const TextColorPicker = ({
         width: "100%",
       }}
     >
-      {predefinedColors ? (
+      {!predefinedColors && colorPicker ? (
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          style={{
+            width: "100%",
+            paddingTop: "8px",
+            paddingLeft: "8px",
+            paddingRight: "8px",
+            paddingBottom: "0px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <HexColorPicker
+            style={{
+              maxWidth: "100%",
+              height: "min-content",
+              aspectRatio: "1",
+            }}
+            color={color}
+            onChange={onChange}
+          />
+          <div className="field-type text">
+            <input
+              style={{
+                width: "100%",
+                margin: "8px 0",
+                height: "25px",
+                paddingTop: "0",
+                paddingBottom: "1px",
+                paddingLeft: "10px",
+              }}
+              type="text"
+              value={color}
+              onChange={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChange(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+      ) : (
         <div
           style={{
             display: isGridView ? "grid" : "flex",
@@ -120,52 +167,6 @@ export const TextColorPicker = ({
             {!isGridView && <span>Reset</span>}
           </div>
         </div>
-      ) : (
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          style={{
-            width: "100%",
-            paddingTop: "8px",
-            paddingLeft: "8px",
-            paddingRight: "8px",
-            paddingBottom: "0px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <HexColorPicker
-            style={{
-              maxWidth: "100%",
-              height: "min-content",
-              aspectRatio: "1",
-            }}
-            color={color}
-            onChange={onChange}
-          />
-          <div className="field-type text">
-            <input
-              style={{
-                width: "100%",
-                margin: "8px 0",
-                height: "25px",
-                paddingTop: "0",
-                paddingBottom: "1px",
-                paddingLeft: "10px",
-              }}
-              type="text"
-              value={color}
-              onChange={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onChange(e.target.value);
-              }}
-            />
-          </div>
-        </div>
       )}
       <div
         style={{
@@ -177,19 +178,21 @@ export const TextColorPicker = ({
           alignItems: "center",
         }}
       >
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setPredefinedColors((prev) => !prev);
-          }}
-          className="btn btn--icon-style-without-border btn--size-small btn--withoutPopup btn--style-pill btn--withoutPopup"
-          style={{
-            margin: 0,
-          }}
-        >
-          {predefinedColors ? "Color picker" : "Predefined colors"}
-        </button>
+        {colorPicker && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setPredefinedColors((prev) => !prev);
+            }}
+            className="btn btn--icon-style-without-border btn--size-small btn--withoutPopup btn--style-pill btn--withoutPopup"
+            style={{
+              margin: 0,
+            }}
+          >
+            {predefinedColors ? "Color picker" : "Predefined colors"}
+          </button>
+        )}
         {!hideAttribution && (
           <p
             style={{

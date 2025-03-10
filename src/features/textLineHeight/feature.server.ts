@@ -15,6 +15,7 @@ export const TextLineHeightFeature = createServerFeature<
         lineHeights: props?.lineHeights,
         scroll: props?.scroll,
         customLineHeight: props?.customLineHeight,
+        method: props?.method,
       },
     };
   },

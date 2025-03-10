@@ -1,19 +1,42 @@
-import React from "react";
-
-export const TextLineHeightIcon: React.FC = () => {
+export const TextLineHeightIcon = () => {
   return (
     <svg
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 32 32"
       fill="none"
-      shapeRendering="geometricPrecision"
+      stroke="currentColor"
+      strokeWidth="2"
     >
-      <path d="M3 6h18M3 12h18M3 18h18" />
+      <path
+        d="M5.3335 26.6667H26.6668"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.3335 3H26.6668"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9 22L16 8L23 22"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.9995 17.9998H20.9995"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   );
 };

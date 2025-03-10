@@ -22,6 +22,7 @@ export type TextLineHeightFeatureProps = {
   lineHeights?: { value: string; label: string }[];
   customLineHeight?: boolean;
   scroll?: boolean;
+  method?: "replace" | "combine";
 };
 
 export type TextLineHeightItem = ToolbarGroupItem & {
@@ -55,6 +56,7 @@ export const TextLineHeightClientFeature = createClientFeature<
               lineHeights: props?.lineHeights,
               scroll: props?.scroll,
               customLineHeight: props?.customLineHeight,
+              method: props?.method,
               key: "textLineHeight",
             },
           });
@@ -63,7 +65,7 @@ export const TextLineHeightClientFeature = createClientFeature<
       },
     ],
     key: "textLineHeightDropdown",
-    order: 70,
+    order: 60,
   };
 
   return {

@@ -23,5 +23,15 @@ export const Dropdown = ({ editor, item }: { editor: LexicalEditor; item: TextLi
     });
   }, [editor, item]);
 
-  return <TextLineHeightPicker onChange={onChange} currentValue={activeLineHeight} item={item} />;
+  return (
+    <TextLineHeightPicker
+      onChange={onChange}
+      currentValue={activeLineHeight}
+      customLineHeight={item.customLineHeight}
+      hideAttribution={item.hideAttribution}
+      lineHeights={item.lineHeights}
+      method={item.method}
+      scroll={item.scroll}
+    />
+  );
 };

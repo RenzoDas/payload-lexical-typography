@@ -12,6 +12,7 @@ export const TextColorFeature = createServerFeature<
       ClientFeature: "payload-lexical-typography/client#TextColorClientFeature",
       clientFeatureProps: {
         colors: props?.colors ?? [],
+        colorPicker: props?.colorPicker,
         hideAttribution: props?.hideAttribution ?? false,
         listView: props?.listView,
       },

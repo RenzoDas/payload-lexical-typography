@@ -41,8 +41,11 @@ export const SpacingPicker = ({
   const [customUnit, setCustomUnit] = useState("em");
 
   const parseSpacingValue = (spacingVal: string) => {
-    const numericPart = parseFloat(spacingVal.replace(/[^0-9.]/g, ""));
-    const unitPart = spacingVal.replace(/[0-9.]/g, "");
+    const sign = spacingVal.startsWith("-") ? "-" : "";
+    const cleanedVal = spacingVal.replace(/^-?/, "").replace(/[^0-9.]/g, "");
+    const numericPart = parseFloat(sign + cleanedVal);
+    const unitPart = spacingVal.replace(/^-?[0-9.]/g, "");
+
     return {
       number: isNaN(numericPart) ? "" : numericPart.toString(),
       unit: units.includes(unitPart) ? unitPart : "em",

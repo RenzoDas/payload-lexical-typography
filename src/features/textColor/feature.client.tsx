@@ -19,6 +19,7 @@ import { getSelection } from "../../utils/getSelection";
 
 export type TextColorFeatureProps = {
   colors?: string[] | { value: string; label: string }[];
+  colorPicker?: boolean;
   hideAttribution?: boolean;
   listView?: boolean;
 };
@@ -56,6 +57,7 @@ export const TextColorClientFeature = createClientFeature<TextColorFeatureProps,
                 colors,
                 listView: props?.listView,
                 hideAttribution: props?.hideAttribution,
+                colorPicker: props?.colorPicker,
                 key: "textColor",
               },
             });

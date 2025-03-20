@@ -23,6 +23,9 @@ export const TextJSXConverter: JSXConverters<SerializedTextNode> = {
 
       match = /(?:^|;)\s?letter-spacing: ([^;]+)/.exec(node.style);
       if (match) styles.letterSpacing = match[1];
+      
+      match = /(?:^|;)\s?line-height: ([^;]+)/.exec(node.style);
+      if (match) styles.lineHeight = match[1];
     }
 
     const formatters: Record<number, (element: React.ReactElement) => React.ReactElement> = {

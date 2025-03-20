@@ -7,8 +7,8 @@ This plugin extends the default Payload Lexical editor functionality by adding m
 - **Text color** - ability to change text color to predefined colors or selected color using color picker.
 - **Font size** - ability to change font size to predefined sizes or custom size using input field.
 - **Letter spacing** - ability to change letter spacing to predefined values or custom value using input field.
+- **Line height** - ability to change line height to predefined values or custom value using input field.
 - **Font family** (coming soon)
-- **Line height** (coming soon)
 
 ## Installation 📦
 
@@ -26,7 +26,7 @@ To get plugin up and running, follow these steps:
 
    ```ts
    import { lexicalEditor } from "@payloadcms/richtext-lexical";
-   import { TextColorFeature, TextSizeFeature, TextLetterSpacingFeature } from "payload-lexical-typography";
+   import { TextColorFeature, TextSizeFeature, TextLetterSpacingFeature, TextLineHeightFeature } from "payload-lexical-typography";
 
    lexicalEditor({
      features: () => {
@@ -36,6 +36,7 @@ To get plugin up and running, follow these steps:
          }),
          TextSizeFeature(),
          TextLetterSpacingFeature(),
+         TextLineHeightFeature(),
        ];
      },
    });
@@ -76,6 +77,12 @@ To get plugin up and running, follow these steps:
     <td><code>Array&lt;string&gt; | Array<{value: string, label: string}></code></td>
     <td><code>[]</code></td>
     <td>Defines the color palette available in the color picker's predefined section. Each color should be a valid CSS color value (hex, RGB, etc.). If you pass values with label, it will automatically switch to list view instead.</td>
+  </tr>
+  <tr>
+    <td><code>colorPicker</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>By setting this to <code>false</code>, you can hide the color picker, limiting users to selecting only from the predefined colors.</td></td>
   </tr>
   <tr>
     <td><code>listView</code></td>
@@ -152,6 +159,41 @@ To get plugin up and running, follow these steps:
     <td><code>boolean</code></td>
     <td><code>true</code></td>
     <td>By setting this to <code>false</code>, you hide the custom letter spacing input field, limiting users to selecting only from the predefined spacing options.</td>
+  </tr>
+</table>
+
+### TextLineHeightFeature
+
+<table style="width: 100%">
+  <tr>
+    <th style="width: 15%">Option</th>
+    <th style="width: 25%">Type</th>
+    <th style="width: 25%">Default</th>
+    <th style="width: 40%">Description</th>
+  </tr>
+  <tr>
+    <td><code>lineHeights</code></td>
+    <td><code>Array&lt;{value: string, label: string}&gt;</code></td>
+    <td><code>[]</code></td>
+    <td>Specifies the line height presets available in the line height picker. Each line height needs both a display label and CSS value.</td>
+  </tr>
+  <tr>
+    <td><code>method</code></td>
+    <td><code>"replace" | "combine"</code></td>
+    <td><code>"replace"</code></td>
+    <td>Determines whether custom sizes replace the defaults (<code>"replace"</code>) or are added to them (<code>"combine"</code>).</td>
+  </tr>
+  <tr>
+    <td><code>scroll</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>If <code>true</code>, line heights over the first 4 will be accessible via scrolling within a fixed container height. If <code>false</code>, the picker will expand vertically to accommodate all line height options.</td>
+  </tr>
+  <tr>
+    <td><code>customLineHeight</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>By setting this to <code>false</code>, you hide the custom line height input field, limiting users to selecting only from the predefined line height options.</td>
   </tr>
 </table>
 

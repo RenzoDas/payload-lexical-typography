@@ -24,7 +24,9 @@ export const FontFamilyPicker = ({
   ];
 
   const options =
-    method === "replace" ? (fontFamilies ?? defaultFontFamilyOptions) : [...defaultFontFamilyOptions, ...(fontFamilies ?? [])];
+    method === "replace"
+      ? (fontFamilies ?? defaultFontFamilyOptions)
+      : [...defaultFontFamilyOptions, ...(fontFamilies ?? [])];
 
   const [displayValue, setDisplayValue] = useState(fontFamily || "");
   const [appliedValue, setAppliedValue] = useState(fontFamily || "");
@@ -96,7 +98,7 @@ export const FontFamilyPicker = ({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr",
           gap: "12px",
           maxHeight: scroll && options.length > 4 ? "64px" : "none",
           overflowY: scroll && options.length > 4 ? "auto" : "visible",
@@ -153,7 +155,6 @@ export const FontFamilyPicker = ({
                   paddingBottom: "1px",
                   paddingLeft: "4px",
                   paddingRight: "4px",
-                  fontFamily: customFontFamilyValue || "initial",
                 }}
                 type="text"
                 value={customFontFamilyValue}

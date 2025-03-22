@@ -8,7 +8,7 @@ This plugin extends the default Payload Lexical editor functionality by adding m
 - **Font size** - ability to change font size to predefined sizes or custom size using input field.
 - **Letter spacing** - ability to change letter spacing to predefined values or custom value using input field.
 - **Line height** - ability to change line height to predefined values or custom value using input field.
-- **Font family** (coming soon)
+- **Font family** - ability to change font family to predefined fonts or custom font using input field.
 
 ## Installation 📦
 
@@ -26,7 +26,13 @@ To get plugin up and running, follow these steps:
 
    ```ts
    import { lexicalEditor } from "@payloadcms/richtext-lexical";
-   import { TextColorFeature, TextSizeFeature, TextLetterSpacingFeature, TextLineHeightFeature } from "payload-lexical-typography";
+   import { 
+     TextColorFeature, 
+     TextSizeFeature, 
+     TextLetterSpacingFeature, 
+     TextLineHeightFeature,
+     TextFontFamilyFeature 
+   } from "payload-lexical-typography";
 
    lexicalEditor({
      features: () => {
@@ -37,6 +43,7 @@ To get plugin up and running, follow these steps:
          TextSizeFeature(),
          TextLetterSpacingFeature(),
          TextLineHeightFeature(),
+         TextFontFamilyFeature(),
        ];
      },
    });
@@ -194,6 +201,41 @@ To get plugin up and running, follow these steps:
     <td><code>boolean</code></td>
     <td><code>true</code></td>
     <td>By setting this to <code>false</code>, you hide the custom line height input field, limiting users to selecting only from the predefined line height options.</td>
+  </tr>
+</table>
+
+### TextFontFamilyFeature
+
+<table style="width: 100%">
+  <tr>
+    <th style="width: 15%">Option</th>
+    <th style="width: 25%">Type</th>
+    <th style="width: 25%">Default</th>
+    <th style="width: 40%">Description</th>
+  </tr>
+  <tr>
+    <td><code>fontFamilies</code></td>
+    <td><code>Array&lt;{value: string, label: string}&gt;</code></td>
+    <td><code>[]</code></td>
+    <td>Specifies the font family presets available in the font family picker. Each font family needs both a display label and CSS value.</td>
+  </tr>
+  <tr>
+    <td><code>method</code></td>
+    <td><code>"replace" | "combine"</code></td>
+    <td><code>"replace"</code></td>
+    <td>Determines whether custom font families replace the defaults (<code>"replace"</code>) or are added to them (<code>"combine"</code>).</td>
+  </tr>
+  <tr>
+    <td><code>scroll</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>If <code>true</code>, font families over the first 4 will be accessible via scrolling within a fixed container height. If <code>false</code>, the picker will expand vertically to accommodate all font family options.</td>
+  </tr>
+  <tr>
+    <td><code>customFontFamily</code></td>
+    <td><code>boolean</code></td>
+    <td><code>true</code></td>
+    <td>By setting this to <code>false</code>, you hide the custom font family input field, limiting users to selecting only from the predefined font family options.</td>
   </tr>
 </table>
 

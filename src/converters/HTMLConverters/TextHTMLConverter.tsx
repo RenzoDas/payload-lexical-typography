@@ -36,6 +36,11 @@ export const TextHTMLConverter: HTMLConverter<SerializedTextNode> = {
       if (match) {
         styles = `${styles} line-height: ${match[1]};`;
       }
+      
+      match = /(?:^|;)\s?font-family: ([^;]+)/.exec(node.style);
+      if (match) {
+        styles = `${styles} font-family: ${match[1]};`;
+      }
     }
 
     const styleAttr = styles ? ` style="${styles}"` : "";

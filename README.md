@@ -26,12 +26,12 @@ To get plugin up and running, follow these steps:
 
    ```ts
    import { lexicalEditor } from "@payloadcms/richtext-lexical";
-   import { 
-     TextColorFeature, 
-     TextSizeFeature, 
-     TextLetterSpacingFeature, 
+   import {
+     TextColorFeature,
+     TextSizeFeature,
+     TextLetterSpacingFeature,
      TextLineHeightFeature,
-     TextFontFamilyFeature 
+     TextFontFamilyFeature,
    } from "payload-lexical-typography";
 
    lexicalEditor({
@@ -205,6 +205,8 @@ To get plugin up and running, follow these steps:
 </table>
 
 ### TextFontFamilyFeature
+
+⚠️ **Warning:** If the fonts aren't default system fonts, you still need to import them to your project layout, if you want to see them in the editor you have to add proper `@font-face` rules in your `custom.scss` file too.
 
 <table style="width: 100%">
   <tr>

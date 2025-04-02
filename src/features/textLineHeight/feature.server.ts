@@ -9,7 +9,7 @@ export const TextLineHeightFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "payload-lexical-typography/client#TextLineHeightClientFeature",
+      ClientFeature: "@renzodas/payload-lexical-typography/client#TextLineHeightClientFeature",
       clientFeatureProps: {
         hideAttribution: props?.hideAttribution,
         lineHeights: props?.lineHeights,

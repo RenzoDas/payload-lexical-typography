@@ -1,6 +1,6 @@
 {
-  "name": "payload-lexical-typography",
-  "version": "0.3.0",
+  "name": "@renzodas/payload-lexical-typography",
+  "version": "0.3.1",
   "description": "PayloadCMS lexical-editor typography extension plugin",
   "module": "dist/index.mjs",
   "main": "dist/index.cjs",
@@ -39,9 +39,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdrianMaj/payload-lexical-typography"
+    "url": "git+https://github.com/RenzoDas/payload-lexical-typography.git"
   },
-  "author": "Adrian Maj",
+  "author": "Renzo",
   "license": "MIT",
   "packageManager": "pnpm@10.5.1",
   "devDependencies": {
@@ -49,6 +49,7 @@
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.21.0",
     "@payloadcms/richtext-lexical": "^3.26.0",
+    "@payloadcms/ui": "^3.26.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
@@ -58,7 +59,6 @@
     "prettier": "3.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@payloadcms/ui": "^3.26.0",
     "tsup": "^8.3.6",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3"

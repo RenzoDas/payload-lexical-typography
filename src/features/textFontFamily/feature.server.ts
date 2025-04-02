@@ -9,7 +9,7 @@ export const TextFontFamilyFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "payload-lexical-typography/client#TextFontFamilyClientFeature",
+      ClientFeature: "@renzodas/payload-lexical-typography/client#TextFontFamilyClientFeature",
       clientFeatureProps: {
         hideAttribution: props?.hideAttribution,
         fontFamilies: props?.fontFamilies,

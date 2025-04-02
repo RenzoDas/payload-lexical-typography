@@ -10,9 +10,15 @@ import {
 } from "@payloadcms/richtext-lexical/lexical";
 import { type JSXConverters } from "@payloadcms/richtext-lexical/react";
 
+// Extended CSS Properties that support custom properties
+type ExtendedCSSProperties = React.CSSProperties & {
+  [key: `--${string}`]: string;
+  cssText?: string;
+};
+
 export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
   text: ({ node }: { node: SerializedTextNode }) => {
-    const styles: React.CSSProperties = {};
+    const styles: ExtendedCSSProperties = {};
     const customProps: Record<string, string> = {};
 
     if (node.style) {
@@ -25,35 +31,35 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
 
       match = /(?:^|;)\s?letter-spacing: ([^;]+)/.exec(node.style);
       if (match) styles.letterSpacing = match[1];
-      
+
       match = /(?:^|;)\s?line-height: ([^;]+)/.exec(node.style);
       if (match) styles.lineHeight = match[1];
-      
+
       match = /(?:^|;)\s?font-family: ([^;]+)/.exec(node.style);
       if (match) styles.fontFamily = match[1];
 
       // Responsive styles as CSS custom properties
       match = /(?:^|;)\s?--mobile-font-size: ([^;]+)/.exec(node.style);
-      if (match) styles["--mobile-font-size" as any] = match[1];
+      if (match) styles["--mobile-font-size"] = match[1];
 
       match = /(?:^|;)\s?--mobile-line-height: ([^;]+)/.exec(node.style);
-      if (match) styles["--mobile-line-height" as any] = match[1];
+      if (match) styles["--mobile-line-height"] = match[1];
 
       match = /(?:^|;)\s?--tablet-font-size: ([^;]+)/.exec(node.style);
-      if (match) styles["--tablet-font-size" as any] = match[1];
+      if (match) styles["--tablet-font-size"] = match[1];
 
       match = /(?:^|;)\s?--tablet-line-height: ([^;]+)/.exec(node.style);
-      if (match) styles["--tablet-line-height" as any] = match[1];
+      if (match) styles["--tablet-line-height"] = match[1];
 
       match = /(?:^|;)\s?--desktop-font-size: ([^;]+)/.exec(node.style);
-      if (match) styles["--desktop-font-size" as any] = match[1];
+      if (match) styles["--desktop-font-size"] = match[1];
 
       match = /(?:^|;)\s?--desktop-line-height: ([^;]+)/.exec(node.style);
-      if (match) styles["--desktop-line-height" as any] = match[1];
+      if (match) styles["--desktop-line-height"] = match[1];
 
       // Data attribute for variant
       match = /(?:^|;)\s?data-variant: ([^;]+)/.exec(node.style);
-      if (match && match[1]) customProps["data-variant"] = match[1];
+      if (match) customProps["data-variant"] = match[1];
     }
 
     const formatters: Record<number, (element: React.ReactElement) => React.ReactElement> = {
@@ -67,7 +73,7 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
     };
 
     // Add the custom CSS for responsive behavior
-    if (styles["--mobile-font-size" as any] || styles["--tablet-font-size" as any]) {
+    if (styles["--mobile-font-size"] || styles["--tablet-font-size"]) {
       styles.cssText = `
         @media (max-width: 767px) {
           font-size: var(--mobile-font-size) !important;
@@ -80,7 +86,11 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       `;
     }
 
-    let textElement = <span style={styles} {...customProps}>{node.text}</span>;
+    let textElement = (
+      <span style={styles as React.CSSProperties} {...customProps}>
+        {node.text}
+      </span>
+    );
 
     Object.entries(formatters).forEach(([formatFlag, formatter]) => {
       if (node.format & Number(formatFlag)) {

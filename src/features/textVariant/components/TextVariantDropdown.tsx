@@ -1,7 +1,9 @@
 import { type LexicalEditor } from "@payloadcms/richtext-lexical/lexical";
+
 import { useEffect, useState } from "react";
 
 import { TextVariantPicker } from "./TextVariantPicker";
+
 import { type TextVariantItem } from "../feature.client";
 
 export const TextVariantDropdown = ({ editor, item }: { editor: LexicalEditor; item: TextVariantItem }) => {

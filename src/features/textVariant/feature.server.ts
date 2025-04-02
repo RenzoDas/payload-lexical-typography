@@ -1,4 +1,5 @@
 import { createServerFeature } from "@payloadcms/richtext-lexical";
+
 import { type TextVariantFeatureProps } from "./types";
 
 export const TextVariantFeature = createServerFeature<
@@ -8,7 +9,7 @@ export const TextVariantFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "payload-lexical-typography/client#TextVariantClientFeature",
+      ClientFeature: "@renzodas/payload-lexical-typography/client#TextVariantClientFeature",
       clientFeatureProps: {
         variants: props?.variants || [],
         hideAttribution: props?.hideAttribution,

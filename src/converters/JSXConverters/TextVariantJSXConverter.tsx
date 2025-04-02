@@ -62,16 +62,6 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       if (match) customProps["data-variant"] = match[1];
     }
 
-    const formatters: Record<number, (element: React.ReactElement) => React.ReactElement> = {
-      [IS_BOLD]: (el) => <strong>{el}</strong>,
-      [IS_ITALIC]: (el) => <em>{el}</em>,
-      [IS_STRIKETHROUGH]: (el) => <span style={{ textDecoration: "line-through" }}>{el}</span>,
-      [IS_UNDERLINE]: (el) => <span style={{ textDecoration: "underline" }}>{el}</span>,
-      [IS_CODE]: (el) => <code>{el}</code>,
-      [IS_SUBSCRIPT]: (el) => <sub>{el}</sub>,
-      [IS_SUPERSCRIPT]: (el) => <sup>{el}</sup>,
-    };
-
     // Add the custom CSS for responsive behavior
     if (styles["--mobile-font-size"] || styles["--tablet-font-size"]) {
       styles.cssText = `
@@ -86,18 +76,44 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       `;
     }
 
-    let textElement = (
-      <span style={styles as React.CSSProperties} {...customProps}>
-        {node.text}
-      </span>
-    );
+    // Apply formatters to the text content first
+    let textContent: React.ReactNode = node.text;
 
-    Object.entries(formatters).forEach(([formatFlag, formatter]) => {
-      if (node.format & Number(formatFlag)) {
-        textElement = formatter(textElement);
+    // Create the formatted content without styling
+    if (node.format) {
+      if (node.format & IS_BOLD) {
+        textContent = <strong>{textContent}</strong>;
       }
-    });
+      if (node.format & IS_ITALIC) {
+        textContent = <em>{textContent}</em>;
+      }
+      if (node.format & IS_STRIKETHROUGH) {
+        textContent = <span style={{ textDecoration: "line-through" }}>{textContent}</span>;
+      }
+      if (node.format & IS_UNDERLINE) {
+        textContent = <span style={{ textDecoration: "underline" }}>{textContent}</span>;
+      }
+      if (node.format & IS_CODE) {
+        textContent = <code>{textContent}</code>;
+      }
+      if (node.format & IS_SUBSCRIPT) {
+        textContent = <sub>{textContent}</sub>;
+      }
+      if (node.format & IS_SUPERSCRIPT) {
+        textContent = <sup>{textContent}</sup>;
+      }
+    }
 
-    return textElement;
+    // Only wrap in a styled span if we have styles or custom props
+    if (Object.keys(styles).length > 0 || Object.keys(customProps).length > 0) {
+      return (
+        <span style={styles as React.CSSProperties} {...customProps}>
+          {textContent}
+        </span>
+      );
+    }
+
+    // Otherwise just return the formatted content
+    return textContent;
   },
 };

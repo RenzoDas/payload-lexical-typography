@@ -17,9 +17,9 @@ To get plugin up and running, follow these steps:
 1. **Install package from NPM:**
 
    ```bash
-   pnpm add @renzodas/payload-lexical-typography
+   pnpm add payload-lexical-typography-plus
    # OR
-   npm install @renzodas/payload-lexical-typography
+   npm install payload-lexical-typography-plus
    ```
 
 2. **Add features you want to include in your lexical editor config, you can also pass additional props:**
@@ -32,7 +32,7 @@ To get plugin up and running, follow these steps:
      TextLetterSpacingFeature,
      TextLineHeightFeature,
      TextFontFamilyFeature,
-   } from "@renzodas/payload-lexical-typography";
+   } from "payload-lexical-typography-plus";
 
    lexicalEditor({
      features: () => {
@@ -56,7 +56,7 @@ To get plugin up and running, follow these steps:
    ### JSX Converters
 
    ```tsx
-   import { TypographyJSXConverters } from "payload-lexical-typography/converters";
+   import { TypographyJSXConverters } from "payload-lexical-typography-plus/converters";
 
    const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
      ...defaultConverters,

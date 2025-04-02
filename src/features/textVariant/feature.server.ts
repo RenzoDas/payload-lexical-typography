@@ -9,7 +9,7 @@ export const TextVariantFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "@renzodas/payload-lexical-typography/client#TextVariantClientFeature",
+      ClientFeature: "payload-lexical-typography-plus/client#TextVariantClientFeature",
       clientFeatureProps: {
         variants: props?.variants || [],
         hideAttribution: props?.hideAttribution,

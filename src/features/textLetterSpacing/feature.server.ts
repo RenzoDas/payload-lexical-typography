@@ -9,7 +9,7 @@ export const TextLetterSpacingFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "payload-lexical-typography/client#TextLetterSpacingClientFeature",
+      ClientFeature: "payload-lexical-typography-plus/client#TextLetterSpacingClientFeature",
       clientFeatureProps: {
         hideAttribution: props?.hideAttribution,
         spacings: props?.spacings,

@@ -9,7 +9,7 @@ export const TextSizeFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "@renzodas/payload-lexical-typography/client#TextSizeClientFeature",
+      ClientFeature: "payload-lexical-typography-plus/client#TextSizeClientFeature",
       clientFeatureProps: {
         hideAttribution: props?.hideAttribution,
         sizes: props?.sizes,

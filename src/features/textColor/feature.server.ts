@@ -9,7 +9,7 @@ export const TextColorFeature = createServerFeature<
 >({
   feature({ props }) {
     return {
-      ClientFeature: "@renzodas/payload-lexical-typography/client#TextColorClientFeature",
+      ClientFeature: "payload-lexical-typography-plus/client#TextColorClientFeature",
       clientFeatureProps: {
         colors: props?.colors ?? [],
         colorPicker: props?.colorPicker,

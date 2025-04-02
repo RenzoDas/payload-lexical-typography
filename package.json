@@ -1,5 +1,5 @@
 {
-  "name": "@renzodas/payload-lexical-typography",
+  "name": "payload-lexical-typography-plus",
   "version": "0.3.1",
   "description": "PayloadCMS lexical-editor typography extension plugin",
   "module": "dist/index.mjs",

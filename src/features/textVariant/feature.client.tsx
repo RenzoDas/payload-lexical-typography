@@ -4,7 +4,10 @@ import { type ToolbarGroup, type ToolbarGroupItem } from "@payloadcms/richtext-l
 import { createClientFeature } from "@payloadcms/richtext-lexical/client";
 import { COMMAND_PRIORITY_CRITICAL, type BaseSelection } from "@payloadcms/richtext-lexical/lexical";
 import { useLexicalComposerContext } from "@payloadcms/richtext-lexical/lexical/react/LexicalComposerContext";
-import { $patchStyleText } from "@payloadcms/richtext-lexical/lexical/selection";
+import {
+  $patchStyleText,
+  $getSelectionStyleValueForProperty,
+} from "@payloadcms/richtext-lexical/lexical/selection";
 
 import { useEffect } from "react";
 
@@ -39,9 +42,12 @@ export const TextVariantClientFeature = createClientFeature<TextVariantFeaturePr
               item: {
                 command: TEXT_VARIANT_COMMAND,
                 current() {
-                  // This is simplified - in a real implementation we'd need a more sophisticated
-                  // way to determine the current variant based on all the styles
-                  return null;
+                  // Get the current variant based on data-variant attribute
+                  const selection = getSelection();
+                  if (!selection) return null;
+
+                  // Use $getSelectionStyleValueForProperty to get the data-variant value
+                  return $getSelectionStyleValueForProperty(selection, "data-variant", "");
                 },
                 variants: defaultVariants,
                 hideAttribution: props?.hideAttribution,
@@ -67,22 +73,22 @@ export const TextVariantClientFeature = createClientFeature<TextVariantFeaturePr
                 TEXT_VARIANT_COMMAND,
                 (payload) => {
                   const selectedVariant = payload.variant;
-                  
+
                   editor.update(() => {
                     const selection = getSelection();
                     if (!selection) return;
 
                     // Find the variant in our list
                     const variantConfig = defaultVariants.find((v) => v.name === selectedVariant);
-                    
+
                     if (!variantConfig) {
-                      // If no variant found or it's the reset option, clear styles
+                      // Clear styles if no variant selected
                       $patchStyleText(selection, {
                         "font-size": "",
                         "line-height": "",
                         "letter-spacing": "",
                         "font-family": "",
-                        "color": "",
+                        color: "",
                         "--mobile-font-size": "",
                         "--mobile-line-height": "",
                         "--tablet-font-size": "",
@@ -94,22 +100,29 @@ export const TextVariantClientFeature = createClientFeature<TextVariantFeaturePr
                       return;
                     }
 
-                    // Apply all styles from the variant
-                    const { mobile, tablet, desktop } = variantConfig;
+                    // No need to maintain current styles here as $patchStyleText will preserve
+                    // any other styles that are not being explicitly overwritten
 
                     // Apply desktop styles directly and store responsive values as CSS variables
+                    const { mobile, tablet, desktop } = variantConfig;
+
                     $patchStyleText(selection, {
+                      // Base styles (desktop)
                       "font-size": desktop.fontSize,
                       "line-height": desktop.lineHeight,
-                      "letter-spacing": desktop.letterSpacing || "",
-                      "font-family": desktop.fontFamily || "",
-                      "color": desktop.color || "",
+                      "letter-spacing": desktop.letterSpacing ?? "",
+                      "font-family": desktop.fontFamily ?? "",
+                      color: desktop.color ?? "",
+
+                      // Responsive styles as CSS variables
                       "--mobile-font-size": mobile.fontSize,
                       "--mobile-line-height": mobile.lineHeight,
                       "--tablet-font-size": tablet.fontSize,
                       "--tablet-line-height": tablet.lineHeight,
                       "--desktop-font-size": desktop.fontSize,
                       "--desktop-line-height": desktop.lineHeight,
+
+                      // Variant identifier
                       "data-variant": selectedVariant,
                     });
                   });

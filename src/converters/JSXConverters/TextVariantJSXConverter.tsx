@@ -1,3 +1,4 @@
+// src/converters/JSXConverters/TextVariantJSXConverter.tsx
 import {
   IS_BOLD,
   IS_ITALIC,
@@ -10,19 +11,19 @@ import {
 } from "@payloadcms/richtext-lexical/lexical";
 import { type JSXConverters } from "@payloadcms/richtext-lexical/react";
 
-// Extended CSS Properties that support custom properties
-type ExtendedCSSProperties = React.CSSProperties & {
-  [key: `--${string}`]: string;
-  cssText?: string;
-};
-
+// Extended CSS Properties that properly support custom properties and media queries
+type ExtendedCSSProperties = React.CSSProperties &
+  Record<`--${string}`, string> & {
+    cssText?: string;
+  };
 export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
   text: ({ node }: { node: SerializedTextNode }) => {
+    // Extract all styles and properties
     const styles: ExtendedCSSProperties = {};
     const customProps: Record<string, string> = {};
 
     if (node.style) {
-      // Standard styles
+      // Extract standard styles
       let match = /(?:^|;)\s?color: ([^;]+)/.exec(node.style);
       if (match) styles.color = match[1];
 
@@ -38,7 +39,7 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       match = /(?:^|;)\s?font-family: ([^;]+)/.exec(node.style);
       if (match) styles.fontFamily = match[1];
 
-      // Responsive styles as CSS custom properties
+      // Extract responsive styles
       match = /(?:^|;)\s?--mobile-font-size: ([^;]+)/.exec(node.style);
       if (match) styles["--mobile-font-size"] = match[1];
 
@@ -57,29 +58,15 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       match = /(?:^|;)\s?--desktop-line-height: ([^;]+)/.exec(node.style);
       if (match) styles["--desktop-line-height"] = match[1];
 
-      // Data attribute for variant
+      // Extract data variant attribute
       match = /(?:^|;)\s?data-variant: ([^;]+)/.exec(node.style);
       if (match) customProps["data-variant"] = match[1];
     }
 
-    // Add the custom CSS for responsive behavior
-    if (styles["--mobile-font-size"] || styles["--tablet-font-size"]) {
-      styles.cssText = `
-        @media (max-width: 767px) {
-          font-size: var(--mobile-font-size) !important;
-          line-height: var(--mobile-line-height) !important;
-        }
-        @media (min-width: 768px) and (max-width: 1023px) {
-          font-size: var(--tablet-font-size) !important;
-          line-height: var(--tablet-line-height) !important;
-        }
-      `;
-    }
-
-    // Apply formatters to the text content first
+    // Create text content with appropriate formatting
     let textContent: React.ReactNode = node.text;
 
-    // Create the formatted content without styling
+    // Apply formatting transforms in the correct order
     if (node.format) {
       if (node.format & IS_BOLD) {
         textContent = <strong>{textContent}</strong>;
@@ -104,16 +91,35 @@ export const TextVariantJSXConverter: JSXConverters<SerializedTextNode> = {
       }
     }
 
-    // Only wrap in a styled span if we have styles or custom props
+    // Determine if this is a variant with responsive styles
+    const hasResponsiveStyles =
+      styles["--mobile-font-size"] || styles["--tablet-font-size"] || styles["--desktop-font-size"];
+
+    // Only wrap with styled span if necessary
     if (Object.keys(styles).length > 0 || Object.keys(customProps).length > 0) {
-      return (
-        <span style={styles as React.CSSProperties} {...customProps}>
-          {textContent}
-        </span>
-      );
+      if (hasResponsiveStyles) {
+        // Add responsive style class to enable media queries
+        return (
+          <span
+            className="typography-variant-text"
+            data-has-responsive-typography="true"
+            style={styles}
+            {...customProps}
+          >
+            {textContent}
+          </span>
+        );
+      } else {
+        // Regular styling without responsive features
+        return (
+          <span style={styles} {...customProps}>
+            {textContent}
+          </span>
+        );
+      }
     }
 
-    // Otherwise just return the formatted content
+    // Return just the formatted content if no styles needed
     return textContent;
   },
 };

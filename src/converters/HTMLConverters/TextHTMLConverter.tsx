@@ -1,3 +1,4 @@
+// src/converters/HTMLConverters/TextHTMLConverter.tsx
 import { type HTMLConverter } from "@payloadcms/richtext-lexical";
 import {
   IS_BOLD,
@@ -16,9 +17,10 @@ export const TextHTMLConverter: HTMLConverter<SerializedTextNode> = {
   converter({ node }) {
     let styles = "";
     let customAttributes = "";
+    let responsiveStyles = "";
 
     if (node.style) {
-      // Standard styles
+      // Extract standard styles
       let match = /(?:^|;)\s?color: ([^;]+)/.exec(node.style);
       if (match) {
         styles = `${styles} color: ${match[1]};`;
@@ -44,7 +46,7 @@ export const TextHTMLConverter: HTMLConverter<SerializedTextNode> = {
         styles = `${styles} font-family: ${match[1]};`;
       }
 
-      // Responsive styles as CSS custom properties
+      // Extract CSS variables for responsive typography
       match = /(?:^|;)\s?--mobile-font-size: ([^;]+)/.exec(node.style);
       if (match) {
         styles = `${styles} --mobile-font-size: ${match[1]};`;
@@ -75,25 +77,33 @@ export const TextHTMLConverter: HTMLConverter<SerializedTextNode> = {
         styles = `${styles} --desktop-line-height: ${match[1]};`;
       }
 
-      // Data attribute for the variant name
+      // Extract variant attribute
       match = /(?:^|;)\s?data-variant: ([^;]+)/.exec(node.style);
       if (match?.[1]) {
-        customAttributes = ` data-variant="${match[1]}"`;
+        customAttributes = ` data-variant="${match[1]}" data-has-responsive-typography="true"`;
       }
-    }
 
-    // Add responsive styling with media queries
-    if (styles.includes("--mobile-font-size") || styles.includes("--tablet-font-size")) {
-      styles = `${styles}
-        @media (max-width: 767px) {
-          font-size: var(--mobile-font-size) !important;
-          line-height: var(--mobile-line-height) !important;
-        }
-        @media (min-width: 768px) and (max-width: 1023px) {
-          font-size: var(--tablet-font-size) !important;
-          line-height: var(--tablet-line-height) !important;
-        }
-      `;
+      // Add explicit media queries for responsive typography
+      if (styles.includes("--mobile-font-size") || styles.includes("--tablet-font-size")) {
+        responsiveStyles = `
+          @media (max-width: 767px) {
+            font-size: var(--mobile-font-size) !important;
+            line-height: var(--mobile-line-height) !important;
+          }
+          
+          @media (min-width: 768px) and (max-width: 1023px) {
+            font-size: var(--tablet-font-size) !important;
+            line-height: var(--tablet-line-height) !important;
+          }
+          
+          @media (min-width: 1024px) {
+            font-size: var(--desktop-font-size) !important;
+            line-height: var(--desktop-line-height) !important;
+          }
+        `;
+
+        styles = `${styles} ${responsiveStyles}`;
+      }
     }
 
     const styleAttr = styles ? ` style="${styles}"` : "";
@@ -105,13 +115,11 @@ export const TextHTMLConverter: HTMLConverter<SerializedTextNode> = {
     }
 
     // Apply text formatting while preserving style attributes
-    // We'll do this by applying the format flags one by one, outside-in
-    // This way we ensure styles are correctly preserved at each level
+    if (allAttributes) {
+      html = `<span${allAttributes}>${html}</span>`;
+    }
 
-    // First, create the initial element with all styles
-    html = styles || customAttributes ? `<span${allAttributes}>${html}</span>` : html;
-
-    // Now apply formats in a non-destructive way
+    // Apply standard text formatting preserving the styled span
     if (node.format & IS_BOLD) {
       html = `<strong>${html}</strong>`;
     }
